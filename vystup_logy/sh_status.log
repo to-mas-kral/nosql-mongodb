@@ -1,0 +1,131 @@
+ 
+[direct: mongos] test> sh.status()
+shardingVersion
+{ _id: 1, clusterId: ObjectId('66113e074cdf873b302b5b5c') }
+---
+shards
+[
+  {
+    _id: 'shard-0',
+    host: 'shard-0/shard-0-primary:27017,shard-0-secondary:27017',
+    state: 1,
+    topologyTime: Timestamp({ t: 1712406036, i: 2 })
+  },
+  {
+    _id: 'shard-1',
+    host: 'shard-1/shard-1-primary:27017,shard-1-secondary:27017',
+    state: 1,
+    topologyTime: Timestamp({ t: 1712406036, i: 6 })
+  }
+]
+---
+active mongoses
+[ { '7.0.7': 2 } ]
+---
+autosplit
+{ 'Currently enabled': 'yes' }
+---
+balancer
+{
+  'Currently enabled': 'yes',
+  'Currently running': 'no',
+  'Failed balancer rounds in last 5 attempts': 0,
+  'Migration Results for the last 24 hours': 'No recent migrations'
+}
+---
+databases
+[
+  {
+    database: { _id: 'config', primary: 'config', partitioned: true },
+    collections: {
+      'config.system.sessions': {
+        shardKey: { _id: 1 },
+        unique: false,
+        balancing: true,
+        chunkMetadata: [ { shard: 'shard-0', nChunks: 1 } ],
+        chunks: [
+          { min: { _id: MinKey() }, max: { _id: MaxKey() }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 0 }) }
+        ],
+        tags: []
+      }
+    }
+  },
+  {
+    database: {
+      _id: 'yelp-academic',
+      primary: 'shard-1',
+      partitioned: false,
+      version: {
+        uuid: UUID('7d11c813-c162-409a-8184-064753e5e6e2'),
+        timestamp: Timestamp({ t: 1712406038, i: 1 }),
+        lastMod: 1
+      }
+    },
+    collections: {
+      'yelp-academic.business': {
+        shardKey: { name: 'hashed' },
+        unique: false,
+        balancing: true,
+        chunkMetadata: [
+          { shard: 'shard-0', nChunks: 2 },
+          { shard: 'shard-1', nChunks: 2 }
+        ],
+        chunks: [
+          { min: { name: MinKey() }, max: { name: Long('-4611686018427387902') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 0 }) },
+          { min: { name: Long('-4611686018427387902') }, max: { name: Long('0') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 1 }) },
+          { min: { name: Long('0') }, max: { name: Long('4611686018427387902') }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 2 }) },
+          { min: { name: Long('4611686018427387902') }, max: { name: MaxKey() }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 3 }) }
+        ],
+        tags: []
+      },
+      'yelp-academic.review': {
+        shardKey: { date: 'hashed' },
+        unique: false,
+        balancing: true,
+        chunkMetadata: [
+          { shard: 'shard-0', nChunks: 2 },
+          { shard: 'shard-1', nChunks: 2 }
+        ],
+        chunks: [
+          { min: { date: MinKey() }, max: { date: Long('-4611686018427387902') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 0 }) },
+          { min: { date: Long('-4611686018427387902') }, max: { date: Long('0') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 1 }) },
+          { min: { date: Long('0') }, max: { date: Long('4611686018427387902') }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 2 }) },
+          { min: { date: Long('4611686018427387902') }, max: { date: MaxKey() }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 3 }) }
+        ],
+        tags: []
+      },
+      'yelp-academic.tip': {
+        shardKey: { date: 'hashed' },
+        unique: false,
+        balancing: true,
+        chunkMetadata: [
+          { shard: 'shard-0', nChunks: 2 },
+          { shard: 'shard-1', nChunks: 2 }
+        ],
+        chunks: [
+          { min: { date: MinKey() }, max: { date: Long('-4611686018427387902') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 0 }) },
+          { min: { date: Long('-4611686018427387902') }, max: { date: Long('0') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 1 }) },
+          { min: { date: Long('0') }, max: { date: Long('4611686018427387902') }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 2 }) },
+          { min: { date: Long('4611686018427387902') }, max: { date: MaxKey() }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 3 }) }
+        ],
+        tags: []
+      },
+      'yelp-academic.user': {
+        shardKey: { _id: 'hashed' },
+        unique: false,
+        balancing: true,
+        chunkMetadata: [
+          { shard: 'shard-0', nChunks: 2 },
+          { shard: 'shard-1', nChunks: 2 }
+        ],
+        chunks: [
+          { min: { _id: MinKey() }, max: { _id: Long('-4611686018427387902') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 0 }) },
+          { min: { _id: Long('-4611686018427387902') }, max: { _id: Long('0') }, 'on shard': 'shard-1', 'last modified': Timestamp({ t: 1, i: 1 }) },
+          { min: { _id: Long('0') }, max: { _id: Long('4611686018427387902') }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 2 }) },
+          { min: { _id: Long('4611686018427387902') }, max: { _id: MaxKey() }, 'on shard': 'shard-0', 'last modified': Timestamp({ t: 1, i: 3 }) }
+        ],
+        tags: []
+      }
+    }
+  }
+]

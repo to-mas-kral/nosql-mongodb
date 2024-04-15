@@ -1,0 +1,185 @@
+shard-0 [direct: primary] test> rs.status()
+{
+  set: 'shard-0',
+  date: ISODate('2024-04-06T12:30:27.218Z'),
+  myState: 1,
+  term: Long('1'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 2,
+  writeMajorityCount: 2,
+  votingMembersCount: 2,
+  writableVotingMembersCount: 2,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+    lastCommittedWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+    appliedOpTime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+    durableOpTime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+    lastAppliedWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+    lastDurableWallTime: ISODate('2024-04-06T12:30:26.310Z')
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1712406607, i: 62 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: ISODate('2024-04-06T12:20:23.979Z'),
+    electionTerm: Long('1'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 1712406013, i: 1 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1712406013, i: 1 }), t: Long('-1') },
+    numVotesNeeded: 2,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    numCatchUpOps: Long('0'),
+    newTermStartDate: ISODate('2024-04-06T12:20:24.084Z'),
+    wMajorityWriteAvailabilityDate: ISODate('2024-04-06T12:20:24.593Z')
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'shard-0-primary:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 621,
+      optime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+      optimeDate: ISODate('2024-04-06T12:30:26.000Z'),
+      lastAppliedWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+      lastDurableWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1712406023, i: 1 }),
+      electionDate: ISODate('2024-04-06T12:20:23.000Z'),
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'shard-0-secondary:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 613,
+      optime: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1712406626, i: 18 }), t: Long('1') },
+      optimeDate: ISODate('2024-04-06T12:30:26.000Z'),
+      optimeDurableDate: ISODate('2024-04-06T12:30:26.000Z'),
+      lastAppliedWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+      lastDurableWallTime: ISODate('2024-04-06T12:30:26.310Z'),
+      lastHeartbeat: ISODate('2024-04-06T12:30:26.728Z'),
+      lastHeartbeatRecv: ISODate('2024-04-06T12:30:27.210Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'shard-0-primary:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1712406626, i: 18 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1712406626, i: 18 })
+}
+
+shard-1 [direct: primary] test> rs.status()
+{
+  set: 'shard-1',
+  date: ISODate('2024-04-06T12:31:18.808Z'),
+  myState: 1,
+  term: Long('1'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 2,
+  writeMajorityCount: 2,
+  votingMembersCount: 2,
+  writableVotingMembersCount: 2,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+    lastCommittedWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+    appliedOpTime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+    durableOpTime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+    lastAppliedWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+    lastDurableWallTime: ISODate('2024-04-06T12:31:16.627Z')
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1712406666, i: 1 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: ISODate('2024-04-06T12:20:26.379Z'),
+    electionTerm: Long('1'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 1712406014, i: 1 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1712406014, i: 1 }), t: Long('-1') },
+    numVotesNeeded: 2,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    numCatchUpOps: Long('0'),
+    newTermStartDate: ISODate('2024-04-06T12:20:26.473Z'),
+    wMajorityWriteAvailabilityDate: ISODate('2024-04-06T12:20:26.984Z')
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'shard-1-primary:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 673,
+      optime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+      optimeDate: ISODate('2024-04-06T12:31:16.000Z'),
+      lastAppliedWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+      lastDurableWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1712406026, i: 1 }),
+      electionDate: ISODate('2024-04-06T12:20:26.000Z'),
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'shard-1-secondary:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 663,
+      optime: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1712406676, i: 1 }), t: Long('1') },
+      optimeDate: ISODate('2024-04-06T12:31:16.000Z'),
+      optimeDurableDate: ISODate('2024-04-06T12:31:16.000Z'),
+      lastAppliedWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+      lastDurableWallTime: ISODate('2024-04-06T12:31:16.627Z'),
+      lastHeartbeat: ISODate('2024-04-06T12:31:17.204Z'),
+      lastHeartbeatRecv: ISODate('2024-04-06T12:31:18.174Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'shard-1-primary:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1712406676, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1712406676, i: 1 })
+}

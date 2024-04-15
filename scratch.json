@@ -1,0 +1,87 @@
+/* {
+    "user_id": "Ha3iJu77CxlrFm-vQRs_8g",               // ID uživatele
+    "name": "Sebastien",                  // křestní jméno
+    "review_count": 56,            // počet napsaných recenzí
+    "yelping_since": "2011-01-01", // datum vytvoření účtu
+    "friends": ["...", "..."],     // kamarádi (pole user_id)
+
+    "useful": 21,                  // počet recenzí označených uživatelem jako "useful"
+    "funny": 88,                   // počet recenzí označených uživatelem jako "funny"
+    "cool": 15,                    // počet recenzí označených uživatelem jako "cool"
+
+    "fans": 1032,                  // počet fanoušků
+
+    "elite": [ 2012, 2013 ],       // roky kdy byl uživatel "elitní"
+
+    "average_stars": 4.31,         // průměrný počet hvězdiček u hodnocení
+
+    "compliment_hot": 339,         // počet obdržených "hot" komplimentů
+    "compliment_more": 668,        // počet obdržených "more" komplimentů
+    "compliment_profile": 42,      // počet obdržených "profile" komplimentů
+    "compliment_cute": 62,         // počet obdržených "cute" komplimentů
+    "compliment_list": 37,         // počet obdržených "list" komplimentů
+    "compliment_note": 356,        // počet obdržených "note" komplimentů
+    "compliment_plain": 68,        // počet obdržených "plain" komplimentů
+    "compliment_cool": 91,         // počet obdržených "cool" komplimentů
+    "compliment_funny": 99,        // počet obdržených "funny" komplimentů
+    "compliment_writer": 95,       // počet obdržených "writer" komplimentů
+    "compliment_photos": 50        // počet obdržených "photos" komplimentů
+}
+ */
+/* {
+    "review_id": "zdSx_SD6obEhz9VrW9uAWA", // ID recenze
+    "user_id": "Ha3iJu77CxlrFm-vQRs_8g", // ID uživatele (autora)
+    "business_id": "tnhfDv5Il8EaGSXZGiuQGg", // ID recenzovaného podniku
+    "stars": 4, // počet hvězdiček
+    "date": "2016-03-09", // datum vytvoření
+    "text": "lorem ipsum...", // samotný text recenze
+    "useful": 0, // počet obdržených "useful" hlasů
+    "funny": 0, // počet obdržených "funny" hlasů
+    "cool": 0 // počet obdržených "cool" hlasů
+} */
+
+/* {
+    "business_id": "tnhfDv5Il8EaGSXZGiuQGg", // ID podniku
+    "name": "Garaje", // jméno podniku
+    "address": "475 3rd St", // adresa
+    "city": "San Francisco", // město
+    "state": "CA", // stát (americký nebo kanadský)
+    "postal code": "94107", // PSČ
+    "latitude": 37.7817529521, // zeměpisná šířka
+    "longitude": -122.39612197, // zeměpisná délka
+
+    "stars": 4.5, // průměrné hodnocení v hvězdičkách
+    "review_count": 1198, // počet recenzí
+
+    "is_open": 1, // otevřeno / zavřeno
+
+    // vlastnosti podniku (informace o parkování, take-out jídlo atd...)
+    "attributes": {
+        "RestaurantsTakeOut": true,
+        "BusinessParking": {
+            "garage": false,
+            "street": true,
+            "validated": false,
+            "lot": false,
+            "valet": false
+        }
+    },
+
+    // kategorie podniku
+    "categories": [
+        "Mexican",
+        "Burgers",
+        "Gastropubs"
+    ],
+
+    // otevírací doba
+    "hours": {
+        "Monday": "10:00-21:00",
+        "Tuesday": "10:00-21:00",
+        "Friday": "10:00-21:00",
+        "Wednesday": "10:00-21:00",
+        "Thursday": "10:00-21:00",
+        "Sunday": "11:00-18:00",
+        "Saturday": "10:00-21:00"
+    }
+} */
