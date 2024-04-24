@@ -1,3 +1,5 @@
+db.getSiblingDB("yelp-academic").auth("dataAdmin", "password")
+
 db = db.getSiblingDB("yelp-academic")
 
 db.user.updateMany(
@@ -90,5 +92,7 @@ db.review.updateMany(
 )
 
 db.review.createIndex({date: "hashed"})
+
+db.getSiblingDB("admin").auth("totalAdmin", "password")
 
 sh.shardCollection("yelp-academic.review", { "date" : "hashed" } )

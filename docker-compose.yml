@@ -8,9 +8,10 @@ services:
   config-server-primary:
     image: mongo:7
     container_name: config-server-primary
-    command: mongod --port 27017 --configsvr --replSet config-servers
+    command: mongod --port 27017 --configsvr --replSet config-servers --keyFile /data/keyfile
     volumes:
       - ./init_scripts/init-repl-config-servers.js:/scripts/init-repl-config-servers.js:ro
+      - ./keyfile:/data/keyfile:ro
     ports:
       - 27700:27017
     restart: always
@@ -18,9 +19,10 @@ services:
   config-server-secondary:
     image: mongo:7
     container_name: config-server-secondary
-    command: mongod --port 27017 --configsvr --replSet config-servers
+    command: mongod --port 27017 --configsvr --replSet config-servers --keyFile /data/keyfile
     volumes:
       - ./init_scripts/init-repl-config-servers.js:/scripts/init-repl-config-servers.js:ro
+      - ./keyfile:/data/keyfile:ro
     ports:
       - 27701:27017
     restart: always
@@ -33,29 +35,32 @@ services:
   mongos-0:
     image: mongo:7
     container_name: mongos-0
-    command: mongos --port 27017 --configdb config-servers/config-server-primary:27017,config-server-secondary:27017 --bind_ip_all
+    command: mongos --port 27017 --configdb config-servers/config-server-primary:27017,config-server-secondary:27017 --bind_ip_all --keyFile /data/keyfile
     ports:
       - 27600:27017
     restart: always
     volumes:
       - ./init_scripts/init-mongos.js:/scripts/init-mongos.js:ro
+      - ./init_scripts/create-users.js:/scripts/create-users.js:ro
       - ./init_scripts/configure-sharding.js:/scripts/configure-sharding.js:ro
       - ./priklady.js:/scripts/priklady.js:ro
       - ./init_scripts/fixup-data.js:/scripts/fixup-data.js:ro
       - ./data/business.json:/data/business.json
       - ./data/review.json:/data/review.json
       - ./data/user.json:/data/user.json
+      - ./keyfile:/data/keyfile:ro
 
   mongos-1:
     image: mongo:7
     container_name: mongos-1
-    command: mongos --port 27017 --configdb config-servers/config-server-primary:27017,config-server-secondary:27017 --bind_ip_all
+    command: mongos --port 27017 --configdb config-servers/config-server-primary:27017,config-server-secondary:27017 --bind_ip_all --keyFile /data/keyfile
     ports:
       - 27601:27017
     restart: always
     volumes:
       - ./init_scripts/init-mongos.js:/scripts/init-mongos.js:ro
       - ./init_scripts/configure-sharding.js:/scripts/configure-sharding.js:ro
+      - ./keyfile:/data/keyfile:ro
 
 #
 #
@@ -69,20 +74,23 @@ services:
   shard-0-primary:
     image: mongo:7
     container_name: shard-0-primary
-    command: mongod --port 27017 --replSet shard-0 --shardsvr
+    command: mongod --port 27017 --replSet shard-0 --shardsvr --keyFile /data/keyfile
     ports:
       - 27800:27017
     restart: always
     volumes:
       - ./init_scripts/init-repl-shard-0.js:/scripts/init-repl-shard-0.js:ro
+      - ./keyfile:/data/keyfile:ro
 
   shard-0-secondary:
     image: mongo:7
     container_name: shard-0-secondary
-    command: mongod --port 27017 --replSet shard-0 --shardsvr
+    command: mongod --port 27017 --replSet shard-0 --shardsvr --keyFile /data/keyfile
     ports:
       - 27801:27017
     restart: always
+    volumes:
+      - ./keyfile:/data/keyfile:ro
 
 #
 # Shard 1
@@ -90,17 +98,20 @@ services:
   shard-1-primary:
     image: mongo:7
     container_name: shard-1-primary
-    command: mongod --port 27017 --replSet shard-1 --shardsvr
+    command: mongod --port 27017 --replSet shard-1 --shardsvr --keyFile /data/keyfile
     ports:
       - 27900:27017
     restart: always
     volumes:
       - ./init_scripts/init-repl-shard-1.js:/scripts/init-repl-shard-1.js:ro
+      - ./keyfile:/data/keyfile:ro
 
   shard-1-secondary:
     image: mongo:7
     container_name: shard-1-secondary
-    command: mongod --port 27017 --replSet shard-1 --shardsvr
+    command: mongod --port 27017 --replSet shard-1 --shardsvr --keyFile /data/keyfile
     ports:
       - 27901:27017
     restart: always
+    volumes:
+      - ./keyfile:/data/keyfile:ro

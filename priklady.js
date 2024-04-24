@@ -214,6 +214,22 @@ rs.add('shard-0-secondary:27017')
 rs.stepDown()
 
 //
+// Priklad 7 - shardování
+//
+
+sh.enableSharding("yelp-academic")
+
+sh.shardCollection("yelp-academic.business", { "name" : "hashed" } )
+sh.shardCollection("yelp-academic.user", { "_id" : "hashed" } )
+
+sh.status()
+
+sh.getShardedDataDistribution()
+
+sh.reshardCollection("yelp-academic.user", { "review_count" : 1 } )
+sh.reshardCollection("yelp-academic.user", { "_id" : "hashed" } )
+
+//
 // Priklad 11
 //
 
