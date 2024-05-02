@@ -230,7 +230,49 @@ sh.reshardCollection("yelp-academic.user", { "review_count" : 1 } )
 sh.reshardCollection("yelp-academic.user", { "_id" : "hashed" } )
 
 //
-// Priklad 11
+// Priklad 8 - Práce s uživateli
+//
+
+db.getSiblingDB("admin").createUser(
+  {
+    user: "totalAdmin",
+    pwd:  "password",
+    roles: [
+      { role: "dbOwner", db: "admin" },
+    ]
+  }
+);
+
+db.getSiblingDB("admin").auth("totalAdmin", "password");
+
+db.getSiblingDB("admin").grantRolesToUser("totalAdmin", ["clusterManager", "userAdminAnyDatabase"])
+
+db.getSiblingDB("yelp-academic").createRole(
+{
+    role: "dataScientist",
+    privileges: [
+      { resource: { db: "yelp-academic", collection: "" }, actions: [ "find", "update", "insert", "remove" ] },
+    ],
+    roles: [
+      { role: "read", db: "yelp-academic" }
+    ]
+  }
+);
+
+db.getSiblingDB("yelp-academic").createUser(
+  {
+    user: "tom",
+    pwd:  "password",
+    roles: [ { role: "dataScientist", db: "yelp-academic" } ]
+  }
+);
+
+db.getSiblingDB("yelp-academic").getUser("tom")
+
+db.getSiblingDB("yelp-academic").revokeRolesFromUser( "tom", [ "dataScientist" ])
+
+//
+// Priklad 9
 //
 
 use yelp-academic
@@ -275,7 +317,7 @@ db.business.aggregate(
 )
 
 //
-// Priklad 12
+// Priklad 10
 //
 
 db.user.aggregate(
@@ -328,4 +370,149 @@ db.user.aggregate(
           },
         },
     ]
+)
+
+db.review.aggregate(
+  [
+    {
+      $project: {
+        day: {
+          $dayOfWeek: "$date",
+        },
+      },
+    },
+    {
+      $project: {
+        day: {
+          $arrayElemAt: [
+            [
+              "",
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ],
+            "$day",
+          ],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$day",
+        count: {
+          $count: {},
+        },
+      },
+    },
+  ]
+)
+
+db.business.aggregate(
+  [
+    {
+      $unwind: "$categories",
+    },
+    {
+      $group: {
+        _id: "$categories",
+        averageRating: {
+          $avg: "$stars",
+        },
+      },
+    },
+    {
+      $sort: {
+        averageRating: 1,
+      },
+    },
+    {
+      $limit: 10
+    }
+  ]
+)
+
+db.business.aggregate(
+  [
+    {
+      $facet: {
+        tokio: [
+          {
+            $match: {
+              name: "Little Tokyo Small Plates & Noodle Bar",
+              city: "New Orleans",
+            },
+          },
+        ],
+        good_bars: [
+          {
+            $match: {
+              city: "New Orleans",
+              categories: {
+                $all: ["Bars"],
+              },
+              stars: {
+                $gte: 4,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $set: {
+        tokio: {
+          $arrayElemAt: ["$tokio", 0],
+        },
+      },
+    },
+    {
+      $set: {
+        "tokio.good_bars": "$good_bars",
+      },
+    },
+    {
+      $unset: "good_bars",
+    },
+    {
+      $unwind: {
+        path: "$tokio.good_bars",
+      },
+    },
+    {
+      $set: {
+        diff_attrs: {
+          $setDifference: [
+            "$tokio.good_bars.categories",
+            "$tokio.categories",
+          ],
+        },
+      },
+    },
+    {
+      $unset: "tokio",
+    },
+    {
+      $unwind: {
+        path: "$diff_attrs",
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $group: {
+        _id: "$diff_attrs",
+        count: {
+          $count: {},
+        },
+      },
+    },
+    {
+      $sort: {
+        count: -1,
+      },
+    },
+  ]
 )
