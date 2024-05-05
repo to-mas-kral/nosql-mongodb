@@ -4,6 +4,9 @@
 
 mongosh mongodb://localhost:27600,localhost:27601/
 
+use admin
+db.auth("totalAdmin", "password")
+
 db.hostInfo()
 
 db.serverStatus()
@@ -72,6 +75,8 @@ db.createCollection(
 //
 
 use yelp-academic
+
+db.auth("tom", "password")
 
 db.user.insertOne({
   "user_id": "...application_generated...",
@@ -174,6 +179,8 @@ db.user.replaceOne(
 // Priklad 5 - Indexy
 //
 
+db.auth("dataAdmin", "password")
+
 db.business.createIndex( {review_count: 1} )
 
 db.business.createIndex( {review_count: 1, stars: 1} )
@@ -201,6 +208,12 @@ db.review.dropIndex("date_1")
 // Priklad 6 - replikační sety
 //
 
+// je potřeba se připojit přímo na replikační set...
+// mongosh localhost:27800
+
+use admin
+db.auth("localAdmin", "password")
+
 rs.printReplicationInfo()
 
 rs.status()
@@ -216,6 +229,9 @@ rs.stepDown()
 //
 // Priklad 7 - shardování
 //
+
+use admin
+db.auth("totalAdmin", "password")
 
 sh.enableSharding("yelp-academic")
 
@@ -235,7 +251,7 @@ sh.reshardCollection("yelp-academic.user", { "_id" : "hashed" } )
 
 db.getSiblingDB("admin").createUser(
   {
-    user: "totalAdmin",
+    user: "totalAdmin2",
     pwd:  "password",
     roles: [
       { role: "dbOwner", db: "admin" },
@@ -243,13 +259,13 @@ db.getSiblingDB("admin").createUser(
   }
 );
 
-db.getSiblingDB("admin").auth("totalAdmin", "password");
+db.getSiblingDB("admin").auth("totalAdmin2", "password");
 
-db.getSiblingDB("admin").grantRolesToUser("totalAdmin", ["clusterManager", "userAdminAnyDatabase"])
+db.getSiblingDB("admin").grantRolesToUser("totalAdmin2", ["clusterManager", "userAdminAnyDatabase"])
 
 db.getSiblingDB("yelp-academic").createRole(
 {
-    role: "dataScientist",
+    role: "dataScientist2",
     privileges: [
       { resource: { db: "yelp-academic", collection: "" }, actions: [ "find", "update", "insert", "remove" ] },
     ],
@@ -261,21 +277,22 @@ db.getSiblingDB("yelp-academic").createRole(
 
 db.getSiblingDB("yelp-academic").createUser(
   {
-    user: "tom",
+    user: "tom2",
     pwd:  "password",
-    roles: [ { role: "dataScientist", db: "yelp-academic" } ]
+    roles: [ { role: "dataScientist2", db: "yelp-academic" } ]
   }
 );
 
-db.getSiblingDB("yelp-academic").getUser("tom")
+db.getSiblingDB("yelp-academic").getUser("tom2")
 
-db.getSiblingDB("yelp-academic").revokeRolesFromUser( "tom", [ "dataScientist" ])
+db.getSiblingDB("yelp-academic").revokeRolesFromUser( "tom2", [ "dataScientist" ])
 
 //
 // Priklad 9
 //
 
 use yelp-academic
+db.auth("tom", "password")
 
 db.business.find({city: 'Nashville', stars: {$gt: 4.5}, categories: {$all: ["Restaurants", "Mexican"]}}).sort({review_count: -1}).limit(3)
 

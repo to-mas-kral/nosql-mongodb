@@ -10,7 +10,21 @@ db.getSiblingDB("admin").createUser(
 
 db.getSiblingDB("admin").auth("totalAdmin", "password");
 
-db.getSiblingDB("admin").grantRolesToUser("totalAdmin", ["clusterManager", "userAdminAnyDatabase"])
+db.getSiblingDB("admin").grantRolesToUser("totalAdmin", ["clusterAdmin", "userAdminAnyDatabase"])
+
+db.getSiblingDB("admin").createRole(
+{
+    role: "admin_new_db",
+    privileges: [
+      { resource: { db: "new_db", collection: "" }, actions: [ "find", "update", "insert", "remove" ] },
+    ],
+    roles: [
+      { role: "readWrite", db: "new_db" }
+    ]
+  }
+);
+
+db.getSiblingDB("admin").grantRolesToUser("totalAdmin", ["admin_new_db"])
 
 db.getSiblingDB("yelp-academic").createRole(
 {
