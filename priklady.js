@@ -277,12 +277,6 @@ db.getSiblingDB("yelp-academic").revokeRolesFromUser( "tom", [ "dataScientist" ]
 
 use yelp-academic
 
-db.business.find({city: 'Nashville'})
-
-db.business.find({city: 'Nashville', stars: {$gt: 4.5}})
-
-db.business.find({city: 'Nashville', stars: {$gt: 4.5}, categories: {$all: ["Restaurants", "Mexican"]}})
-
 db.business.find({city: 'Nashville', stars: {$gt: 4.5}, categories: {$all: ["Restaurants", "Mexican"]}}).sort({review_count: -1}).limit(3)
 
 db.business.aggregate(
@@ -315,6 +309,10 @@ db.business.aggregate(
         },
       ]
 )
+
+db.business.find({ "attributes.WiFi": { $exists: true }})
+
+db.business.find({"categories": { $size: 1 }})
 
 //
 // Priklad 10
@@ -513,6 +511,48 @@ db.business.aggregate(
       $sort: {
         count: -1,
       },
+    },
+  ]
+)
+
+db.user.aggregate(
+  [
+    {
+      $group: {
+        _id: null,
+        min: { $min: "$review_count", },
+        max: { $max: "$review_count", },
+        median: {
+          $median: {
+            input: "$review_count",
+            method: "approximate",
+          },
+        },
+        percentile: {
+          $percentile: {
+            input: "$review_count",
+            p: [0.25, 0.5, 0.75],
+            method: "approximate",
+          },
+        },
+      },
+    },
+    {
+      $set: {
+        percentile_25: {$arrayElemAt: ["$percentile", 0],},
+        percentile_50: {$arrayElemAt: ["$percentile", 1],},
+        percentile_75: {$arrayElemAt: ["$percentile", 2],},
+      },
+    },
+    {
+      $set: {
+        iqr: {
+          $subtract: ["$percentile_75", "$percentile_25",],
+        },
+      },
+    },
+    {
+      $unset: ["percentile", "_id"],
     },
   ]
 )
